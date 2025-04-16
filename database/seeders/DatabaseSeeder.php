@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +15,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory()->admin()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@eventhub.com',
+            'password' => bcrypt('password123'),
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory(10)->create();
+        Event::factory(20)->create();
+
+        $events = Event::all();
+        User::all()->each(function ($user) use ($events) {
+            $user->events()->attach(
+                $events->random(rand(1, 5))->pluck('id')->toArray()
+            );
+        });
     }
 }
