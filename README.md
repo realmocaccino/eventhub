@@ -1,66 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+EventHub Documentation
+======================
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Project Description
+-------------------
 
-## About Laravel
+EventHub is a comprehensive event management platform that allows users to create, manage, and register for events. It features a robust backend built with Laravel and a reactive frontend using Vue 3 with Composition API. The system includes event creation/management, registration with capacity constraints, real-time updates, and optimized database operations.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Installation Guide
+------------------
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Manual Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Prerequisites
 
-## Learning Laravel
+*   PHP 8.1 or higher
+    
+*   Composer
+    
+*   Node.js 16+ and npm/yarn
+    
+*   PostgreSQL or MySQL 8.0+
+    
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Installation Steps
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1.  git clone https://github.com/your-repo/EventHub.gitcd EventHub
+    
+2.  composer install
+    
+3.  npm install
+    
+4.  cp .env.example .env
+    
+5.  php artisan key:generate
+    
+6.  iniCopyDB\_CONNECTION=mysqlDB\_HOST=127.0.0.1DB\_PORT=3306DB\_DATABASE=eventhubDB\_USERNAME=rootDB\_PASSWORD=
+    
+7.  php artisan migrate --seed
+    
+8.  npm run build
+    
+9.  php artisan serve
+    
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Docker Installation
 
-## Laravel Sponsors
+#### Prerequisites
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+*   Docker
+    
+*   Docker Compose
+    
 
-### Premium Partners
+#### Installation Steps
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+1.  git clone https://github.com/your-repo/EventHub.gitcd EventHub
+    
+2.  cp .env.example .env
+    
+3.  docker-compose up -d --build
+    
+4.  docker-compose exec app composer install
+    
+5.  docker-compose exec app php artisan key:generate
+    
+6.  docker-compose exec app php artisan migrate --seed
+    
+7.  docker-compose exec app npm install
+    
+8.  docker-compose exec app npm run build
+    
+9.  **Access the application**The application will be available at http://localhost:8000
+    
+Default Admin Credentials
+-------------------------
 
-## Contributing
+For your convenience, a default admin user is created when you run the database seeds. You can use these credentials to log in to the application:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Admin User:**
 
-## Code of Conduct
+*   **Email:** [admin@eventhub.com](https://mailto:admin@eventhub.com/)
+    
+*   **Password:** password123
+    
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Security Recommendations
 
-## Security Vulnerabilities
+Change the default password immediately after your first login.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Testing
+-------------------------
 
-## License
+To execute the test suite, run the following command in your terminal:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan test
+```
+
+# API Documentation
+
+## 1. Authentication
+| Endpoint            | Method | Auth | Parameters               | Description          |
+|---------------------|--------|------|--------------------------|----------------------|
+| `/auth/register`    | POST   | ❌   | `name, email, password`  | User registration (rate-limited) |
+| `/auth/login`       | POST   | ❌   | `email, password`        | Generate auth token  |
+| `/auth/logout`      | POST   | ✅   | -                        | Invalidate token     |
+
+## 2. Event Management *(Admin)*
+`REQUIRES: Valid auth token and manage-events permission`
+
+| Endpoint       | Method | Parameters               | Description          |
+|----------------|--------|--------------------------|----------------------|
+| `/events`      | GET    | -                        | List all events      |
+| `/events`      | POST   | `title, description, date, location` | Create event |
+| `/events/{id}` | GET    | -                        | Get event details    |
+| `/events/{id}` | PUT    | `title, description, date, location` | Update event |
+| `/events/{id}` | DELETE | -                        | Delete event         |
+
+## 3. Registration
+`REQUIRES: Valid auth token`
+
+| Endpoint                | Method | Description          |
+|-------------------------|--------|----------------------|
+| `/events/{id}/register`   | POST   | Join event           |
+| `/events/{id}/unregister` | POST   | Leave event          |
+
+## Response Schema
+```json
+{
+  "error": "string | null",
+  "data": "object | array",
+  "meta": "pagination | null"
+}
+```
+
+## HTTP Status Codes
+
+### Success
+| Code | Description                     |
+|------|---------------------------------|
+| 200  | OK - Successful request         |
+| 201  | Created - Resource created      |
+
+### Client Errors
+| Code | Description                      |
+|------|----------------------------------|
+| 400  | Bad Request - Invalid syntax     |
+| 401  | Unauthorized - Missing/invalid token |
+| 403  | Forbidden - Insufficient permissions |
+| 404  | Not Found - Resource doesn't exist |
+| 422  | Unprocessable Entity - Validation errors |
+| 429  | Too Many Requests - Rate limited |
+
+### Server Errors
+| Code | Description                      |
+|------|----------------------------------|
+| 500  | Internal Server Error - Unexpected server error |
+| 503  | Service Unavailable - Maintenance/downtime |
