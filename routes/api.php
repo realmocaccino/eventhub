@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +11,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\EventRegistrationController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('auth')->controller(AuthController::class)->group(function () {
+    Route::post('register', 'register')->middleware('throttle:api');
+    Route::post('login', 'login');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', 'logout');
+    });
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('can:manage-events')->group(function () {
+        Route::apiResource('events', EventController::class);
+        Route::apiResource('users', UserController::class);
+    });
+
+    Route::prefix('events/{event}')->controller(EventRegistrationController::class)->group(function () {
+        Route::post('register', 'register');
+        Route::post('unregister', 'unregister');
+    });
+});
+
