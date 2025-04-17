@@ -13,34 +13,63 @@ Installation Guide
 
 #### Prerequisites
 
-*   PHP 8.1 or higher
-    
-*   Composer
-    
-*   Node.js 16+ and npm/yarn
-    
-*   PostgreSQL or MySQL 8.0+
-    
+* PHP 8.1 or higher  
+* Composer  
+* Node.js 16+ and npm/yarn  
+* PostgreSQL  
 
 #### Installation Steps
 
-1.  git clone https://github.com/your-repo/EventHub.gitcd EventHub
-    
-2.  composer install
-    
-3.  npm install
-    
-4.  cp .env.example .env
-    
-5.  php artisan key:generate
-    
-6.  iniCopyDB\_CONNECTION=mysqlDB\_HOST=127.0.0.1DB\_PORT=3306DB\_DATABASE=eventhubDB\_USERNAME=rootDB\_PASSWORD=
-    
-7.  php artisan migrate --seed
-    
-8.  npm run build
-    
-9.  php artisan serve
+1. Clone the repository and navigate into it:
+   ```bash
+   git clone https://github.com/your-repo/EventHub.git
+   cd EventHub
+   ```
+
+2. Install PHP dependencies:
+   ```bash
+   composer install
+   ```
+
+3. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+5. Generate the application key:
+   ```bash
+   php artisan key:generate
+   ```
+
+6. Edit your `.env` file and set the database configuration for **PostgreSQL**:
+   ```env
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=eventhub
+   DB_USERNAME=postgres
+   DB_PASSWORD=your_password
+   ```
+
+7. Run the migrations and seed the database:
+   ```bash
+   php artisan migrate --seed
+   ```
+
+8. Build the frontend assets:
+   ```bash
+   npm run build
+   ```
+
+9. Start the local development server:
+   ```bash
+   php artisan serve
+   ```
     
 
 ### Docker Installation
