@@ -30,7 +30,7 @@ class EventRegistrationService
 
         $this->repository->registerUser($event->id, $user->id);
 
-        $user->notify(new RegistrationStatusChanged($event, RegistrationStatus::Registered->value));
+        $user->notify(new RegistrationStatusChanged($event, RegistrationStatus::Registered));
     }
 
     private function validateRegistration(int $eventId, int $userId): void
@@ -54,6 +54,6 @@ class EventRegistrationService
     {
         $this->repository->unregisterUser($event->id, $user->id);
 
-        $user->notify(new RegistrationStatusChanged($event, RegistrationStatus::Unregistered->value));
+        $user->notify(new RegistrationStatusChanged($event, RegistrationStatus::Unregistered));
     }
 }

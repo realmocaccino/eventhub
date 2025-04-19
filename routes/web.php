@@ -14,6 +14,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
@@ -46,4 +47,10 @@ Route::controller(EventController::class)->name('events.')->group(function () {
 
     Route::get('/', 'index')->name('index');
     Route::get('event/{event}', 'show')->name('show');
+});
+
+Route::controller(NotificationController::class)->middleware(['auth'])->prefix('notifications')->group(function () {
+    Route::get('/', 'index');
+    Route::patch('{id}/mark-as-read', 'markAsRead');
+    Route::patch('mark-all-as-read', 'markAllAsRead');
 });

@@ -1,6 +1,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import NotificationBell from '@/Components/UI/NotificationBell.vue';
 
 const flash = computed(() => usePage().props.flash);
 </script>
@@ -47,6 +48,8 @@ const flash = computed(() => usePage().props.flash);
           </div>
 
           <div class="ml-4 flex items-center md:ml-6 space-x-4">
+            <NotificationBell v-if="$page.props.auth.user" />
+
             <div v-if="$page.props.auth.user?.canManageEvents">
               <Link 
                 href="/events/create" 
