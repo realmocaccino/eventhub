@@ -3,33 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\NotificationService;
 
 class NotificationController extends Controller
 {
+    public function __construct(
+        protected NotificationService $notificationService
+    ) {}
+
     public function index()
     {
         return response()->json(
-            auth()->user()->notifications
+            $this->notificationService->all(
+                auth()->user()
+            )
         );
     }
 
     public function markAsRead($id)
     {
-        $notification = auth()->user()->notifications
-            ->where('id', $id)
-            ->firstOrFail();
-
-        $notification->markAsRead();
-
-        return response()->json($notification);
+        return response()->json(
+            $this->notificationService->markAsRead(
+                auth()->user(),
+                $id
+            )
+        );
     }
 
     public function markAllAsRead()
     {
-        if ($unreadNotifications = auth()->user()->unreadNotifications) {
-            $unreadNotifications->markAsRead();
-        }
-
-        return response()->json($unreadNotifications);
+        return response()->json(
+            $this->notificationService->markAllAsRead(
+                auth()->user()
+            )
+        );
     }
 }

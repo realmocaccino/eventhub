@@ -54,7 +54,7 @@ class EventRegistrationController extends Controller
      */
     public function register(Event $event): JsonResponse
     {
-        $this->service->register($event->id, auth()->id());
+        $this->service->register($event, auth()->user());
 
         return response()->json([
             'message' => __('Registered to event')
@@ -96,7 +96,7 @@ class EventRegistrationController extends Controller
      */
     public function unregister(Event $event): JsonResponse
     {
-        $this->service->unregister($event->id, auth()->id());
+        $this->service->unregister($event, auth()->user());
 
         return response()->json([
             'message' => __('Unregistered from event')
