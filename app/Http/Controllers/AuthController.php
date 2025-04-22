@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\LoginDTO;
+use App\DTOs\RegisterDTO;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
@@ -26,7 +28,9 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $this->authService->registerUser($request->validated());
+        $this->authService->registerUser(
+            RegisterDTO::fromRequest($request)
+        );
         
         return redirect()->route('events.index');
     }
@@ -34,8 +38,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if ($this->authService->attemptLogin(
-            $request->only('email', 'password'),
-            $request->filled('remember')
+            LoginDTO::fromRequest($request)
         )) {
             $request->session()->regenerate();
             
