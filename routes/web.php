@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
@@ -29,6 +30,8 @@ Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout')->name('logout');
     });
 });
+
+Route::get('account', [AccountController::class, 'index'])->middleware('auth')->name('account');
 
 Route::controller(EventRegistrationController::class)->middleware('auth')->prefix('events/{event}')->name('events.')->group(function () {
     Route::post('register', 'register')->name('register');
